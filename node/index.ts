@@ -1,8 +1,9 @@
 import express from 'express';
 import Router from './src/Router';
+import bodyParser from 'body-parser';
 
 const server = express();
 
-server.use('/api',Router)
+server.use('/api', bodyParser.json() ,Router);
 
-server.listen(3000)
+server.listen(3000);
