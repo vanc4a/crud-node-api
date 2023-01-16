@@ -1,0 +1,30 @@
+services: 
+  mysql_server:
+    image: mysql
+    build: ./db
+    environment: 
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - db:/var/lib/mysql
+  app:
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+    restart: always
+    build: 
+      context: ./node
+      dockerfile: Dockerfile
+    volumes: 
+      - ./node:/app
+      - '/app/node_modules'
+    ports:
+      - '3000:3000'
+    depends_on: 
+      - mysql_server
+volumes: 
+  db:
