@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, response, Response } from "express";
 import UsersRepository from "../repositories/usersRepository"
 import CreateUser from "../requests/CreateUser";
 
@@ -40,11 +40,16 @@ export const deleteUser = (req: Request,res: Response) => {
 export const create = (req: Request,res: Response) => {
     console.log(req.body)
     try {
-        const createUser = new CreateUser(req.body.username,req.body.age,req.body.hobbies)
-        console.log(createUser)
+        let user = new CreateUser(req.body.username,req.body.age,req.body.hobbies)
+        usersRepository.create(user.username,user.age,user.hobbies)
+        res.status(201).send()        
     } 
     catch(err)
     {
         console.log(err)
+        if(err == 400){
+            res.status(err).send()
+        }
+        res.status(500).send()
     }
 }

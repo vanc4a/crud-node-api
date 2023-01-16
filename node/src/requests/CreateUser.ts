@@ -1,7 +1,7 @@
 class CreateUser {
     username: string;
     age: number;
-    hobbies: string[];
+    hobbies: string;
 
     constructor(name,age,hobbies) {
         if(!(name && age && hobbies)){
